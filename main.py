@@ -49,3 +49,4 @@ def AverageinList():
     return sum/count
 
 print(MaxInList(),MinInList(),AverageinList())
+print(n.nanmax(numbers),n.nanmin(numbers))
