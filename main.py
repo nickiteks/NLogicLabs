@@ -22,12 +22,6 @@ for i in range(r.randint(0, 20)):
 df = p.DataFrame(numbers,columns=["длинна", "ширина", "вес", "объем"])
 df.to_csv("data.csv", index=False, encoding= 'utf-8')
 
-with open("test.csv", "w", newline='') as f:
-    writer = csv.writer(f)
-    writer.writerow(["длинна", "ширина", "вес", "объем"])
-    writer.writerows(numbers)
-
-
 def MaxInList():
     max = numbers[0][0]
     for i in range(len(numbers)):
