@@ -1,55 +1,76 @@
 import csv
-import math
-import numpy as n
-import random as r
-import pandas as p
-
-numbers = [n.random.normal(100, 20, 500),
-           n.random.normal(40, 10, 500),
-           n.random.ranf(500),
-           n.random.gumbel(200, 100, 500)]
-
-numbers = n.transpose(numbers)
-
-for i in range(len(numbers)):
-    for j in range(len(numbers[i])):
-        numbers[i][j] = round(numbers[i][j], 1)
-
-for i in range(r.randint(0, 20)):
-    numbers[r.randint(1, 499)][r.randint(0, 3)] = n.nan
-    numbers[r.randint(1, 499)][r.randint(0, 3)] = 100000
-
-df = p.DataFrame(numbers,columns=["длинна", "ширина", "вес", "объем"])
-df.to_csv("data.csv", index=False, encoding= 'utf-8')
-
-def MaxInList():
-    max = numbers[0][0]
-    for i in range(len(numbers)):
-        for j in range(len(numbers[i])):
-            if numbers[i][j] > max:
-                max = numbers[i][j]
-    return max
+import numpy as np
+import random
+import pandas as pp
+CPU = np.random.poisson(5, 500) * 1.0 #чистый цпу возвращает одномерный массив из указанного количества элементов, значения которых равномерно распределенны внутри заданного интервала
 
 
-def MinInList():
-    min = numbers[0][0]
-    for i in range(len(numbers)):
-        for j in range(len(numbers[i])):
-            if numbers[i][j] < min:
-                min = numbers[i][j]
-    return min
+i = 0
+for row in CPU:
+    if( i < 480):
+        p = random.randint(1, 20)
+        CPU[i+p] = CPU[i] + 100050
+        i += p
 
+i = 0
+for row in CPU:
+    CPU[i] = CPU[i].round().astype(int)
+    if CPU[i] == 1:
+        CPU[i] = np.nan #пропуски вот тут
+    i += 1
 
-def AverageinList():
-    count = 0
-    sum = 0
-    for i in range(len(numbers)):
-        for j in range(len(numbers[i])):
-            if math.isnan(numbers[i][j]) != True:
-                sum += numbers[i][j]
-                count += 1
-    return sum / count
+CPUCoreCount = (np.random.randint(0, 8, 500)) # ядра, Массив случайных целых чисел из интервала
 
+i = 0
+for row in CPUCoreCount:
+    if( i < 480):
+        p = random.randint(1, 30)
+        CPUCoreCount[i+p] = CPUCoreCount[i] + 100050
+        i += p
 
-print(MaxInList(), MinInList(), AverageinList())
-print(n.nanmax(numbers), n.nanmin(numbers))
+i = 0
+for row in CPUCoreCount:
+    CPUCoreCount[i] = CPUCoreCount[i].round().astype(int)
+    i += 1
+
+pureCashSata = np.random.randint(0, 4, 500) #Массив случайных целых чисел из интервала
+i = 0
+for row in pureCashSata:
+    if pureCashSata[i] == 1:
+        pureCashSata[i] = 16
+    elif pureCashSata[i] == 2:
+        pureCashSata[i] = 32
+    elif pureCashSata[i] == 3:
+        pureCashSata[i] = 64
+    i += 1
+
+pureNoiseLevelSata = pureCPU = np.linspace(25, 30, 500) #уровень шума возвращает одномерный массив
+noiseNoiseLevelSata = np.random.normal(0, 1.5, pureNoiseLevelSata.shape) # случайная выборка
+NoiseLevelSata = (pureNoiseLevelSata + noiseNoiseLevelSata)
+
+for row in NoiseLevelSata:
+    if( i < 480):
+        p = random.randint(1, 20)
+        NoiseLevelSata[i+p] = NoiseLevelSata[i] + 100050
+        i += p
+
+i = 0
+
+for row in NoiseLevelSata:
+    if NoiseLevelSata[i] < 24:
+        NoiseLevelSata[i] = np.nan #пропуски
+    NoiseLevelSata[i] = round(NoiseLevelSata[i], 3)
+    i += 1
+
+dispersion = np.var(CPU)  # дисперсия
+mean = np.mean(CPUCoreCount)  # среднее арифмет
+std = np.std(NoiseLevelSata)  # стандартное отклонение
+
+print("Дисперсия CPU - ", dispersion)
+print("Среднее арифметическое ядер - ", mean)
+print("Стандартное отклонение шума жесткого диска - ", std)
+
+zip_list = zip(CPU, CPUCoreCount, pureCashSata, NoiseLevelSata)
+
+df = pp.DataFrame(zip_list, columns = ["CPU", "Количество ядер", "Кэш жесткого диска", "Уровень шума жесткого диска"] )
+df.to_csv('laba1', index= False)
