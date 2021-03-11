@@ -9,19 +9,22 @@ keys = data.keys()
 # 2- 'Кэш жесткого диска',
 # 3-'Уровень шума жесткого диска'
 
-# замена nan
-data.update(data.replace(np.nan, 1))
+
+dispersion = np.var(data[keys[0]])
+mean = np.mean(data[keys[1]])
+std = np.std(data[keys[3]])
+
+print(dispersion, mean, std)
 
 # --замена шумов--
+print(np.nanmedian(data[keys[0]]))
 for i in range(0, 3):
-    data.loc[(data[keys[i]] > 1000), keys[i]] = np.nan
+    data.loc[(data[keys[i]] - np.nanmedian(data[keys[i]])) / np.nanmedian(
+        data[keys[i]]) > 5 , keys[i]] = np.nan
 
 for i in range(0, 3):
     data[keys[i]].update(data[keys[i]].replace(np.nan, round(np.nanmean(data[keys[i]]), 1)))
-# -----
-for row in data:
-    for value in data[row]:
-        print(value)
+
 
 dispersion = np.var(data[keys[0]])
 mean = np.mean(data[keys[1]])
