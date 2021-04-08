@@ -29,7 +29,7 @@ class BloomFilter:
 
     def hashFunction(self, hashNumber, word):
         for letter in word:
-            hashNumber += ord(letter) * hashNumber
+            hashNumber *= ord(letter) + hashNumber % 10
         hashNumber = hashNumber % len(self.data)
         #print(str(hashNumber) + "\t" + word)
         return hashNumber
