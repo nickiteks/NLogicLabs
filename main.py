@@ -2,6 +2,8 @@ from Product import Product
 import random as r
 import math
 
+r.seed(119)
+
 maxMoney = 7000
 minMoney = 1
 
@@ -14,7 +16,9 @@ population = []
 
 k = 5
 populationSize = 10
-norm = [300, 300, 300]
+norm = [300, 300, 300, 300]
+
+a = [0.9, 0.9, 0.9, 0.9]
 
 
 def generateChromosome():
@@ -29,13 +33,15 @@ for i in range(populationSize):
     population.append(generateChromosome())
 
 
-def CountSum():
+def Sum():
     result = []
     for i in range(len(population)):
         sum = 0
         for j in range(len(population[i])):
+            x = 0
             for char in product_list[j].data:
-                sum += int(population[i][j]) * char
+                sum += int(population[i][j]) * char * a[x]
+                x += 1
         result.append(sum)
     return result
 
@@ -91,13 +97,15 @@ def PopulationForse():
     population[0] = b
 
 
-def CheckMinPer(str , min):
+def CheckMinPer(str, min):
     result = 0
     if minMoney < countPrice(str) < maxMoney:
         if str.count('1') == k:
             for i in range(len(str)):
+                x = 0
                 for char in product_list[i].data:
-                    result += int(str[i]) * char
+                    result += int(str[i]) * char * a[x]
+                    x += 1
             result = math.fabs(result - CountNorm())
             if result < min:
                 min = result
@@ -117,11 +125,10 @@ def checkMinPerFirstTime(str):
 trigger = True
 iterationPopulation = 0
 
-
 while trigger:
-    minPopulation = CheckMin(CountDeviation(CountSum(), CountNorm()))
+    minPopulation = CheckMin(CountDeviation(Sum(), CountNorm()))
     NewPopulation()
-    if minPopulation == CheckMin(CountDeviation(CountSum(), CountNorm())):
+    if minPopulation == CheckMin(CountDeviation(Sum(), CountNorm())):
         iterationPopulation += 1
     else:
         iterationPopulation = 0
@@ -138,6 +145,6 @@ min = checkMinPerFirstTime(population[0])
 
 while trigger:
     PopulationForse()
-    min = CheckMinPer(population[0],min)
+    min = CheckMinPer(population[0], min)
     if population[0] == '1' * populationSize:
         trigger = False
